@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Reservations</h1>
+    <div id= "tables">
+    </div>
+    <div id="waitlist"></div>
+
+    <script>
+        async function tableList() {
+        
+            const tableData = await fetch('/api/tables').then(r => r.json())
+            console.log(tableData)
+            for (let i = 0; i < tableData.length; i++){
+                if (i < 5){
+                    document.getElementById(`tables`).innerHTML += `<p>${tableData[i].name}</p>`
+                } else {
+                    document.getElementById(`waitlist`).innerHTML += `<p>${tableData[i].name}</p>`
+                }
+            }
+            const tableRow = tableData[0]
+            document.querySelector('#tableList').innerHTML = `Table name: <b>${tableRow.name}</b>, phone: ${tableRow.phone}`
+        }
+        tableList()
+    </script>
+</body>
+
+</html>

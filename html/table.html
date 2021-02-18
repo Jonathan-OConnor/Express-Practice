@@ -31,16 +31,37 @@
 		<input type="text" class="form-control" id="name">
 		<button onClick="tableReserve(event)">Reserve!</button>
         <div id='tableMessage'></div> -->
-        <div class="container">
-            <ul class="list-group">
-                <li class="list-group-item">An item</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-                <li class="list-group-item">A fourth item</li>
-                <li class="list-group-item">And a fifth one</li>
-              </ul>
+        <div class="container" id="tables">
+			<!-- First 5 objects iterate here -->
         </div>
+		<div class="container" id="waitList">
+			<!-- All other objects iterate here  -->
+		</div>
   </div> <!--end of container-->
-
+<script>
+	async function tableList() {
+		
+		const tableData = await fetch('/api/tables').then(r => r.json())
+		console.log(tableData)
+		for (let i = 0; i < tableData.length; i++){
+			if (i < 5){
+				document.getElementById(`tables`).innerHTML += `<div>
+				<h5><span style="float: left;">Name: ${tableData[i].name}</span><span style="float:right">ID: ${tableData[i].id}  <button onclick="editFunction()">Edit</button></span></h5>
+				<br>
+				<br>
+				<p><span style="float: left;">Email: ${tableData[i].email}</span> <span style="float: right;">Phone: ${tableData[i].phone}</span></p>
+				</div>`
+			} else {
+				document.getElementById(`waitlist`).innerHTML += `<div>
+				<h5><span style="float: left;">Name: ${tableData[i].name}</span><span style="float:right">ID: ${tableData[i].id}  <button onclick="editFunction()">Edit</button></span></h5>
+				<br>
+				<br>
+				<p><span style="float: left;">Email: ${tableData[i].email}</span> <span style="float: right;">Phone: ${tableData[i].phone}</span></p>
+				</div>`
+			}
+		}
+	}
+	tableList()
+</script>
 </body>
 </html>
